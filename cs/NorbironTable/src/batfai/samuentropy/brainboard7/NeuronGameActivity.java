@@ -38,17 +38,66 @@
  * 0.0.1, 2013.szept.29.
  */
 package batfai.samuentropy.brainboard7;
-
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 /**
  *
  * @author nbatfai
  */
 public class NeuronGameActivity extends android.app.Activity {
 
+
+    public static boolean restore = false;
+
     @Override
     public void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-                
+
     }
-}
+     @Override
+    protected void onPause()
+    {
+        super.onPause();
+
+        android.content.SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        android.content.SharedPreferences.Editor editor = settings.edit();
+        NorbironSurfaceView.saveData(editor);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        int i=0;
+        for(NeuronBox nb : NorbironSurfaceView.nodeBoxes) {
+                savedInstanceState.putInt("x" + i, nb.x);
+                savedInstanceState.putInt("y" + i, nb.y);
+                savedInstanceState.putInt("db" + i, nb.numberOfNeurons);
+                savedInstanceState.putInt("type" + i, nb.ctype);
+                savedInstanceState.putBoolean("selected" + i, nb.getSelected());
+                savedInstanceState.putBoolean("open" + i, nb.getCover());
+                i++;
+        }
+        savedInstanceState.putInt("size", NorbironSurfaceView.nodeBoxes.size());
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        restore = true;
+
+        NorbironSurfaceView.nodeBoxes.clear();
+        for (int i=0; i<savedInstanceState.getInt("size"); i++)
+        {
+            int ctype = savedInstanceState.getInt("type"+i, 0);
+            NeuronBox box = (NeuronBox)Nodes.get(ctype).clone();
+            NorbironSurfaceView.nodeBoxes.add(box);
+            box.setXY(savedInstanceState.getInt("x"+i, 0), savedInstanceState.getInt("y"+i, 0));
+            box.numberOfNeurons = savedInstanceState.getInt("db"+i, 0);
+            box.setSelected(savedInstanceState.getBoolean("selected"+i, false));
+            box.setCover(savedInstanceState.getBoolean("open"+i, false));
+        }
+    }
+   }

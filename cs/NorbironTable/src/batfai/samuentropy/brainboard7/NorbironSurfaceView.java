@@ -38,13 +38,18 @@
  * 0.0.1, 2013.szept.29.
  */
 package batfai.samuentropy.brainboard7;
+import android.util.Log;
+
+import android.preference.PreferenceManager;
+
 
 class Nodes {
 
     private android.graphics.Bitmap boardPic;
     private android.graphics.Bitmap neuronSprite;
     private android.graphics.Bitmap nandIronProcCover;
-    private NeuronBox[] neuronBox;
+    private static NeuronBox[] neuronBox;
+
 
     public Nodes(android.view.SurfaceView surfaceView) {
         int resId = surfaceView.getResources().getIdentifier("pcb550i", "drawable",
@@ -67,57 +72,60 @@ class Nodes {
         nandIronProcCover = android.graphics.Bitmap.createScaledBitmap(nandIronProcCover, 168, 197, false);
 
         neuronBox = new NeuronBox[7];
-        neuronBox[0] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 100, nandIronProcCover, 100, 100);
+        neuronBox[0] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 100, nandIronProcCover, 64, 360,0);
 
         resId = surfaceView.getResources().getIdentifier("nandironproci2", "drawable",
                 "batfai.samuentropy.brainboard7");
         nandIronProcCover = android.graphics.BitmapFactory.decodeResource(surfaceView.getResources(), resId);
         nandIronProcCover = android.graphics.Bitmap.createScaledBitmap(nandIronProcCover, 168, 197, false);
 
-        neuronBox[1] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 10, nandIronProcCover, 350, 100);
+        neuronBox[1] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 10, nandIronProcCover, 362, 360,1);
 
         resId = surfaceView.getResources().getIdentifier("matyironproci", "drawable",
                 "batfai.samuentropy.brainboard7");
         nandIronProcCover = android.graphics.BitmapFactory.decodeResource(surfaceView.getResources(), resId);
         nandIronProcCover = android.graphics.Bitmap.createScaledBitmap(nandIronProcCover, 168, 197, false);
 
-        neuronBox[2] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 15, nandIronProcCover, 600, 100);
+        neuronBox[2] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 15, nandIronProcCover, 64, 658,2);
 
         resId = surfaceView.getResources().getIdentifier("matyironproci2", "drawable",
                 "batfai.samuentropy.brainboard7");
         nandIronProcCover = android.graphics.BitmapFactory.decodeResource(surfaceView.getResources(), resId);
         nandIronProcCover = android.graphics.Bitmap.createScaledBitmap(nandIronProcCover, 168, 197, false);
 
-        neuronBox[3] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 100, nandIronProcCover, 100, 400);
-
-        resId = surfaceView.getResources().getIdentifier("gretironproci2", "drawable",
-                "batfai.samuentropy.brainboard7");
-        nandIronProcCover = android.graphics.BitmapFactory.decodeResource(surfaceView.getResources(), resId);
-        nandIronProcCover = android.graphics.Bitmap.createScaledBitmap(nandIronProcCover, 168, 197, false);
-
-        neuronBox[4] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 10, nandIronProcCover, 350, 400);
+        neuronBox[3] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 100, nandIronProcCover, 362, 658,3);
 
         resId = surfaceView.getResources().getIdentifier("gretironproci", "drawable",
                 "batfai.samuentropy.brainboard7");
         nandIronProcCover = android.graphics.BitmapFactory.decodeResource(surfaceView.getResources(), resId);
         nandIronProcCover = android.graphics.Bitmap.createScaledBitmap(nandIronProcCover, 168, 197, false);
 
-        neuronBox[5] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 15, nandIronProcCover, 600, 400);
+        neuronBox[4] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 10, nandIronProcCover, 64, 956,4);
+
+        resId = surfaceView.getResources().getIdentifier("gretironproci2", "drawable",
+                "batfai.samuentropy.brainboard7");
+        nandIronProcCover = android.graphics.BitmapFactory.decodeResource(surfaceView.getResources(), resId);
+        nandIronProcCover = android.graphics.Bitmap.createScaledBitmap(nandIronProcCover, 168, 197, false);
+
+        neuronBox[5] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 15, nandIronProcCover, 362, 956,5);
 
         resId = surfaceView.getResources().getIdentifier("buildproci", "drawable",
                 "batfai.samuentropy.brainboard7");
         nandIronProcCover = android.graphics.BitmapFactory.decodeResource(surfaceView.getResources(), resId);
         nandIronProcCover = android.graphics.Bitmap.createScaledBitmap(nandIronProcCover, 168, 197, false);
 
-        neuronBox[6] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 15, nandIronProcCover, 600, 600);
+        neuronBox[6] = new NeuronBox(neuronSprite, 2 * 14, 64, 62, 15, nandIronProcCover, 64, 62,6);
         neuronBox[6].setType(0);
+
+
+
     }
 
     public android.graphics.Bitmap getBoardPic() {
         return boardPic;
     }
 
-    public NeuronBox get(int i) {
+    public static NeuronBox get(int i) {
         return neuronBox[i];
     }
 
@@ -132,6 +140,13 @@ class Nodes {
  * @author nbatfai
  */
 public class NorbironSurfaceView extends android.view.SurfaceView implements Runnable {
+
+
+    private boolean buildPro = false;
+
+    private final long DPress = 250;
+    private long lastPressTime = 0;
+    private boolean DoubleTap = false;
 
     private float startsx = 0;
     private float startsy = 0;
@@ -148,9 +163,10 @@ public class NorbironSurfaceView extends android.view.SurfaceView implements Run
     protected float boardy = 0;
 
     private Nodes nodes;
-    private static java.util.List<NeuronBox> nodeBoxes = new java.util.ArrayList<NeuronBox>();
+    protected static java.util.List<NeuronBox> nodeBoxes = new java.util.ArrayList<NeuronBox>();
 
     protected NeuronBox selNb = null;
+    public static boolean load=false;
 
     private android.view.SurfaceHolder surfaceHolder;
     private android.view.ScaleGestureDetector scaleGestureDetector;
@@ -166,6 +182,38 @@ public class NorbironSurfaceView extends android.view.SurfaceView implements Run
 
     public float getScaleFactor() {
         return scaleFactor;
+    }
+
+    public static void saveData(android.content.SharedPreferences.Editor editor) {
+        int i=0;
+        for(NeuronBox nb : nodeBoxes) {
+            editor.putInt("x"+i ,nb.x);
+            editor.putInt("y"+i ,nb.y);
+            editor.putInt("db"+i, nb.numberOfNeurons);
+            editor.putInt("type" + i, nb.ctype);
+            editor.putBoolean("selected"+i, nb.getSelected());
+            editor.putBoolean("open"+i, nb.getCover());
+
+            i++;
+        }
+        load=true;
+        editor.putBoolean("load",true);
+        editor.putInt("size", nodeBoxes.size());
+        editor.commit();
+    }
+
+    public static void loadData(android.content.SharedPreferences settings) {
+        if (settings.getBoolean("load",true)) {
+            for (int i = 0; i < settings.getInt("size", 0); i++) {
+                int ctype = settings.getInt("type" + i, 0);
+                NeuronBox box = (NeuronBox) Nodes.get(ctype).clone();
+                nodeBoxes.add(box);
+                box.setXY(settings.getInt("x" + i, 0), settings.getInt("y" + i, 0));
+                box.numberOfNeurons = settings.getInt("db" + i, 0);
+                box.setSelected(settings.getBoolean("selected" + i, false));
+                box.setCover(settings.getBoolean("open" + i, false));
+            }
+        }
     }
 
     public NorbironSurfaceView(android.content.Context context) {
@@ -191,6 +239,8 @@ public class NorbironSurfaceView extends android.view.SurfaceView implements Run
 
     }
 
+
+
     @Override
     protected void onSizeChanged(int newx, int newy, int x, int y) {
 
@@ -204,25 +254,35 @@ public class NorbironSurfaceView extends android.view.SurfaceView implements Run
 
     }
 
+
     private void cinit(android.content.Context context) {
 
         this.context = context;
         nodes = new Nodes(this);
 
-        if (nodeBoxes.size() == 0) {
-            nodeBoxes.add((NeuronBox) nodes.get(6).clone());
-        }
+
+
+
+       /* nodeBoxes.clear();
+        loadData(PreferenceManager.getDefaultSharedPreferences(context));*/
 
         android.content.Intent intent = ((NeuronGameActivity) context).getIntent();
         android.os.Bundle bundle = intent.getExtras();
 
-        if (bundle != null) {
+        if (!NeuronGameActivity.restore) {
+                nodeBoxes.clear();
+                loadData(PreferenceManager.getDefaultSharedPreferences(context));
+            }
+
+       if (bundle != null) {
             int i = bundle.getInt("selectedNode");
 
-            android.util.Log.w("alma", "s" + i);
 
             nodeBoxes.add((NeuronBox) nodes.get(i).clone());
+        }
 
+        if (nodeBoxes.size() == 0) {
+            nodeBoxes.add((NeuronBox) nodes.get(6).clone());
         }
 
         surfaceHolder = getHolder();
@@ -248,13 +308,31 @@ public class NorbironSurfaceView extends android.view.SurfaceView implements Run
                 }
             }
 
-            for (NeuronBox nb : nodeBoxes) {
-                nb.draw(-startsx, -startsy, canvas);
+            if(!buildPro){
+                for (NeuronBox nb : new java.util.ArrayList<NeuronBox>(nodeBoxes)) {
+                    if(nb.getType() == 0){
+                        nb.setXY(64, 62);
+                    }
+
+                    nb.draw(-startsx, -startsy, canvas);
+
+                }
+            }
+
+            else {
+
+                for (int i = 0;i < nodeBoxes.size();i++) {
+                nodeBoxes.get(i).draw(-startsx, -startsy, canvas);
+
+                }
+                nodeBoxes.add((NeuronBox) nodes.get(6).clone());
+
             }
 
             canvas.restore();
-        }
+
     }
+}
 
     public void repaint() {
 
@@ -284,11 +362,13 @@ public class NorbironSurfaceView extends android.view.SurfaceView implements Run
         NeuronBox r = null;
         float max = 10000, m;
 
-        for (NeuronBox nb : nodeBoxes) {
 
-            if ((m = d(nb.getX() + nb.getWidth() / 2, nb.getY() + nb.getHeight() / 2, x, y)) < max) {
+
+          for (int i = 0;i < nodeBoxes.size();i++) {
+
+            if ((m = d(nodeBoxes.get(i).getX() + nodeBoxes.get(i).getWidth() / 2, nodeBoxes.get(i).getY() + nodeBoxes.get(i).getHeight() / 2, x, y)) < max) {
                 max = m;
-                r = nb;
+                r = nodeBoxes.get(i);
             }
         }
         return r;
@@ -311,6 +391,14 @@ public class NorbironSurfaceView extends android.view.SurfaceView implements Run
 
         if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
 
+            long pressTime = System.currentTimeMillis();
+
+            if (pressTime - lastPressTime < DPress)
+                DoubleTap = true;
+            else
+                DoubleTap = false;
+            lastPressTime = pressTime;
+
             fromsx = x;
             fromsy = y;
 
@@ -318,14 +406,25 @@ public class NorbironSurfaceView extends android.view.SurfaceView implements Run
             if (nb != null) {
 
                 if (nb.getType() == 0) {
-                    if (nb.getSelected()) {
+                    if (!nb.getSelected()) {
+                        nb.setCover(false);
                         newNode();
                     }
                 }
 
-                nb.setCover(!nb.getCover());
-                nb.setSelected(!nb.getSelected());
-                selNb = nb;
+
+          else if (!DoubleTap)
+                {
+                    nb.setCover(!nb.getCover());
+                    nb.setSelected(!nb.getSelected());
+                    selNb = nb;
+                }
+                else
+                {
+                    DoubleTap=false;
+                    nodeBoxes.remove(nb);
+                }
+
 
             } else {
                 selNb = null;
@@ -359,12 +458,16 @@ public class NorbironSurfaceView extends android.view.SurfaceView implements Run
 
         } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
 
-        }
+            }
+
+
 
         return true;
     }
 
     public void stop() {
+        //saveData(PreferenceManager.getDefaultSharedPreferences(context).edit());
+
         running = false;
     }
 
@@ -377,8 +480,10 @@ public class NorbironSurfaceView extends android.view.SurfaceView implements Run
 
             if ((newnow = System.currentTimeMillis()) - now > 100) {
 
-                for (NeuronBox nb : nodeBoxes) {
-                    nb.step();
+
+
+                for (int i = 0;i < nodeBoxes.size();i++) {
+                    nodeBoxes.get(i).step();
                 }
 
                 repaint();
